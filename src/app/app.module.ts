@@ -4,21 +4,25 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTableModule} from '@angular/material/table';
+import {HttpClientModule} from '@angular/common/http';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
-    MatTableModule
+    MatTableModule,
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    MatButtonToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
