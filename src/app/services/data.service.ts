@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {MatTableDataSource} from '@angular/material/table';
+import {Observable, ReplaySubject, Subject} from 'rxjs';
 
 export interface DriverStandings {
   position: string;
@@ -23,7 +25,9 @@ export interface ConstructorStandings {
 export class DataService {
   driverStandings: Array<DriverStandings> = [];
   constructorStandings: Array<ConstructorStandings> = [];
-
+  driverDataSource: MatTableDataSource<DriverStandings>;
+  constructorDataSource: MatTableDataSource<ConstructorStandings>;
+  private initialized = new ReplaySubject<boolean>(1);
   constructor(private httpClient: HttpClient) {
   }
 
@@ -40,6 +44,9 @@ export class DataService {
         row.wins = standing.wins;
         this.driverStandings.push(row);
       }
+      this.driverDataSource = new MatTableDataSource(this.driverStandings);
+      this.initialized.next(true);
+
     });
   }
 
@@ -55,9 +62,14 @@ export class DataService {
         constRow.points = constStanding.points;
         constRow.wins = constStanding.wins;
         this.constructorStandings.push(constRow);
-        console.log(this.constructorStandings);
       }
+      this.constructorDataSource = new MatTableDataSource(this.constructorStandings);
     });
   }
+
+  get initializedState(): Observable<boolean>{
+    return this.initialized.asObservable();
+  }
+
 
 }

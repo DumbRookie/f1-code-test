@@ -1,24 +1,24 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DataService} from './services/data.service';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import set = Reflect.set;
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit,  AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   title = 'F1 Dashboard';
   isDriver = true;
   isConstructor = false;
-  driverColumns: string[] = ['drivers_name', 'position', 'points', 'wins', 'constructor'];
-  constructorColumns: string[] = ['drivers_name', 'position', 'points', 'wins', 'constructor'];
-  @ViewChild(MatSort) sort: MatSort;
+  sub: Subscription;
+  doneLoading = false;
+
   constructor(public data: DataService) {
-
   }
-
 
   ngOnInit(): void {
     this.data.getDriverStandingsData();
@@ -26,9 +26,11 @@ export class AppComponent implements OnInit,  AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.sub = this.data.initializedState.subscribe((state) => {
+      this.doneLoading = state;
 
+    });
   }
-
   onValueChanged(value: string): void {
     switch (value){
       case 'constructor':
@@ -45,6 +47,8 @@ export class AppComponent implements OnInit,  AfterViewInit {
     }
   }
 
-
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 
 }

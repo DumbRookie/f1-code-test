@@ -20,73 +20,12 @@
     </mat-button-toggle-group>
   </div>
 </div>
-<ng-container *ngIf="isDriver">
-  <table class="mat-elevation-z8" mat-table [dataSource]="data.driverStandings" matSort
-         *ngIf="data.driverStandings.length > 0">
-    <ng-container matColumnDef="drivers_name">
-      <mat-header-cell *matHeaderCellDef>Driver's Name</mat-header-cell>
-      <mat-cell *matCellDef="let standing">{{standing.drivers_name}}</mat-cell>
-    </ng-container>
 
-    <ng-container matColumnDef="position">
-      <mat-header-cell *matHeaderCellDef>Position</mat-header-cell>
-      <mat-cell *matCellDef="let standing">{{standing.position}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="points">
-      <mat-header-cell *matHeaderCellDef>Points</mat-header-cell>
-      <mat-cell *matCellDef="let standing">{{standing.points}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="wins">
-      <mat-header-cell *matHeaderCellDef>Wins</mat-header-cell>
-      <mat-cell *matCellDef="let standing">{{standing.wins}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="constructor">
-      <mat-header-cell *matHeaderCellDef>Car Constructor</mat-header-cell>
-      <mat-cell *matCellDef="let standing">{{standing.constructor}}</mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="driverColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: driverColumns"></mat-row>
-
-  </table>
-  <div class="divider"></div>
+<ng-container *ngIf="isDriver && doneLoading">
+  <app-driver-table></app-driver-table>
 </ng-container>
 
-<ng-container *ngIf="isConstructor">
-  <table class="mat-elevation-z8" mat-table [dataSource]="data.constructorStandings" matSort
-         *ngIf="data.constructorStandings.length > 0">
-    <ng-container matColumnDef="drivers_name">
-      <mat-header-cell *matHeaderCellDef>Constructor Name</mat-header-cell>
-      <mat-cell *matCellDef="let standing">{{standing.constructor}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="constructor">
-      <mat-header-cell *matHeaderCellDef>Nationality</mat-header-cell>
-      <mat-cell *matCellDef="let standing">{{standing.nationality}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="position">
-      <mat-header-cell *matHeaderCellDef>Position</mat-header-cell>
-      <mat-cell *matCellDef="let standing">{{standing.position}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="points">
-      <mat-header-cell *matHeaderCellDef>Points</mat-header-cell>
-      <mat-cell *matCellDef="let standing">{{standing.points}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="wins">
-      <mat-header-cell *matHeaderCellDef>Wins</mat-header-cell>
-      <mat-cell *matCellDef="let standing">{{standing.wins}}</mat-cell>
-    </ng-container>
-
-
-    <mat-header-row *matHeaderRowDef="constructorColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: constructorColumns"></mat-row>
-
-  </table>
-  <div class="divider"></div>
+<ng-container *ngIf="isConstructor ">
+  <app-constructor-table></app-constructor-table>
 </ng-container>
-<!-- <router-outlet></router-outlet> -->
+
