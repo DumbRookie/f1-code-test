@@ -11,7 +11,6 @@ export class DriverDetailsComponent implements OnInit {
   id: string;
   constructor(private route: ActivatedRoute, public data: DataService) {
     this.id = this.route.snapshot.paramMap.get('driverId');
-    this.data.getDriverInfo(this.id);
   }
 
   ngOnInit(): void {

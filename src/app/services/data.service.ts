@@ -116,5 +116,8 @@ export class DataService {
     });
   }
 
-
+  clearCurrent(): void{
+    this.currentDriver =
+    {driverCode: '', birth: '', name: '', nationality: '', permanentNo: '', wiki: '', races: []};
+  }
 }

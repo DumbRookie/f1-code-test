@@ -25,7 +25,8 @@ export class DriverTableComponent implements OnInit, AfterViewInit {
 
 
   showDriver(row): void {
-
+    this.data.clearCurrent();
+    this.data.getDriverInfo(row.driverId);
     this.router.navigateByUrl('/driver/' + row.driverId).then();
   }
 }
