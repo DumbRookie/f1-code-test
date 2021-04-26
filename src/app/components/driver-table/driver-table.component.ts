@@ -2,6 +2,7 @@ import {AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnDestroy,
 import {DataService} from '../../services/data.service';
 import {MatSort} from '@angular/material/sort';
 import {Subscription} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-driver-table',
@@ -11,7 +12,9 @@ import {Subscription} from 'rxjs';
 export class DriverTableComponent implements OnInit, AfterViewInit {
   driverColumns: string[] = ['drivers_name', 'position', 'points', 'wins', 'constructor'];
   @ViewChild(MatSort) sort: MatSort;
-  constructor(public data: DataService) { }
+
+  constructor(public data: DataService, private router: Router) {
+  }
 
   ngOnInit(): void {
   }
@@ -21,4 +24,8 @@ export class DriverTableComponent implements OnInit, AfterViewInit {
   }
 
 
+  showDriver(row): void {
+
+    this.router.navigateByUrl('/driver/' + row.driverId).then();
+  }
 }

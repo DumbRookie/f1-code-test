@@ -1,0 +1,33 @@
+<div class="hr-center" *ngIf="data.driverStandings.length == 0">
+  <mat-spinner [diameter]="50"></mat-spinner>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col-l">
+    <div class="mg-hr-8">
+      <mat-form-field appearance="fill" class="fill-sm">
+        <mat-label>Select column</mat-label>
+        <mat-select disableRipple>
+          <mat-option value="1">Option 1</mat-option>
+          <mat-option value="2">Option 2</mat-option>
+          <mat-option value="3">Option 3</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-sm">
+    <mat-button-toggle-group value="driver">
+      <mat-button-toggle value="driver" (change)="onValueChanged($event.value)">Driver Standings</mat-button-toggle>
+      <mat-button-toggle value="constructor" (change)="onValueChanged($event.value)">Constructor Standings
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>
+
+<ng-container *ngIf="isDriver && doneLoading">
+  <app-driver-table></app-driver-table>
+</ng-container>
+
+<ng-container *ngIf="isConstructor ">
+  <app-constructor-table></app-constructor-table>
+</ng-container>

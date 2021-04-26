@@ -1,3 +1,4 @@
+
 <mat-table class="mat-elevation-z8" [dataSource]="data.driverDataSource" matSort
            *ngIf="data.driverStandings.length > 0 ">
   <ng-container matColumnDef="drivers_name">
@@ -25,7 +26,7 @@
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="driverColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: driverColumns"></mat-row>
+  <mat-row *matRowDef="let row; columns: driverColumns" (click)="showDriver(row)"></mat-row>
 
 </mat-table>
 <div class="divider"></div>

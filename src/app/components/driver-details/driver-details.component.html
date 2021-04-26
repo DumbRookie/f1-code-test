@@ -1,0 +1,40 @@
+<div class="hr-center">
+  <mat-card class="mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title >Driver</mat-card-title>
+      <mat-card-subtitle>All of the driver's information at a glance.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <h4 class="col-sm">Name:</h4>
+        <p class="col-l"><a target="_blank" [href]="data.currentDriver.wiki">{{data.currentDriver.name}}</a></p>
+      </div>
+      <div class="row">
+        <h4 class="col-sm">Nationality:</h4>
+        <p class="col-l">{{data.currentDriver.nationality}}</p>
+      </div>
+      <div class="row">
+        <h4 class="col-sm">Date Of Birth:</h4>
+        <p class="col-l">{{data.currentDriver.birth}}</p>
+      </div>
+      <div class="row">
+        <h4 class="col-sm">Number:</h4>
+        <p class="col-l">{{data.currentDriver.permanentNo}}</p>
+      </div>
+      <div class="row">
+        <h4 class="col-sm">Code:</h4>
+        <p class="col-l">{{data.currentDriver.driverCode}}</p>
+      </div>
+      <div *ngFor="let race of data.currentDriver.races">
+        <hr>
+        <p>On round {{race.number}} at {{race.place}},
+          he finished at position {{race.position}} with the status "{{race.status}}",
+          having done {{race.laps}} laps with {{race.points}} points.</p>
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <button><a routerLink="/tables">Back To Dashboard</a></button>
+    </mat-card-footer>
+  </mat-card>
+</div>
+

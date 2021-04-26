@@ -9,6 +9,7 @@ export interface DriverStandings {
   constructor: string;
   points: string;
   wins: string;
+  driverId: string;
 }
 
 export interface ConstructorStandings {
@@ -17,6 +18,17 @@ export interface ConstructorStandings {
   constructor: string;
   points: string;
   wins: string;
+  constructorId: string;
+}
+
+export interface Driver {
+  races: any[];
+  name: string;
+  birth: string;
+  nationality: string;
+  permanentNo: string;
+  wiki: string;
+  driverCode: string;
 }
 
 @Injectable({
@@ -28,20 +40,25 @@ export class DataService {
   driverDataSource: MatTableDataSource<DriverStandings>;
   constructorDataSource: MatTableDataSource<ConstructorStandings>;
   private initialized = new ReplaySubject<boolean>(1);
+  currentDriver: Driver =
+    {driverCode: '', birth: '', name: '', nationality: '', permanentNo: '', wiki: '', races: []};
+
   constructor(private httpClient: HttpClient) {
   }
 
   getDriverStandingsData(): void {
     this.httpClient.get('http://ergast.com/api/f1/current/driverStandings.json', {}).subscribe((response: any) => {
       const standings = response.MRData.StandingsTable.StandingsLists[0].DriverStandings;
+
       for (const standing of standings) {
         let row: DriverStandings;
-        row = {position: '', drivers_name: '', constructor: '', points: '', wins: ''};
+        row = {position: '', drivers_name: '', constructor: '', points: '', wins: '', driverId: ''};
         row.position = standing.position;
         row.drivers_name = standing.Driver.givenName + ' ' + standing.Driver.familyName;
         row.constructor = standing.Constructors[0].name;
         row.points = standing.points;
         row.wins = standing.wins;
+        row.driverId = standing.Driver.driverId;
         this.driverStandings.push(row);
       }
       this.driverDataSource = new MatTableDataSource(this.driverStandings);
@@ -53,22 +70,50 @@ export class DataService {
   getConstructorStandingsData(): void {
     this.httpClient.get('http://ergast.com/api/f1/current/constructorStandings.json', {}).subscribe((response: any) => {
       const constStandings = response.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
-      for (const constStanding of constStandings){
+      for (const constStanding of constStandings) {
         let constRow: ConstructorStandings;
-        constRow = {position: '', nationality: '', constructor: '', points: '', wins: ''};
+        constRow = {position: '', nationality: '', constructor: '', points: '', wins: '', constructorId: ''};
         constRow.constructor = constStanding.Constructor.name;
         constRow.position = constStanding.position;
         constRow.nationality = constStanding.Constructor.nationality;
         constRow.points = constStanding.points;
         constRow.wins = constStanding.wins;
+        constRow.constructorId = constStanding.Constructor.constructorId;
         this.constructorStandings.push(constRow);
       }
       this.constructorDataSource = new MatTableDataSource(this.constructorStandings);
+
     });
   }
 
-  get initializedState(): Observable<boolean>{
+  get initializedState(): Observable<boolean> {
     return this.initialized.asObservable();
+  }
+
+  getDriverInfo(id: string): void {
+    this.httpClient.get(`http://ergast.com/api/f1/current/drivers/${id}/results.json`, {}).subscribe((info: any) => {
+      const races: any = info.MRData.RaceTable.Races;
+      const noRaces = races.length - 1;
+      const driverInfo = races[noRaces].Results[0].Driver;
+      this.currentDriver.birth = driverInfo.dateOfBirth;
+      this.currentDriver.wiki = driverInfo.url;
+      this.currentDriver.permanentNo = driverInfo.permanentNumber;
+      this.currentDriver.nationality = driverInfo.nationality;
+      this.currentDriver.name = driverInfo.givenName + ' ' + driverInfo.familyName ;
+      this.currentDriver.driverCode = driverInfo.code;
+      this.currentDriver.races = [];
+      for (const race of races){
+        console.log(race);
+        const round: any = {};
+        round.number = race.round;
+        round.place = race.Circuit.circuitName;
+        round.position = race.Results[0].position;
+        round.status = race.Results[0].status;
+        round.points = race.Results[0].points;
+        round.laps = race.Results[0].laps;
+        this.currentDriver.races.push(round);
+      }
+    });
   }
 
 
