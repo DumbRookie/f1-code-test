@@ -52,12 +52,14 @@ export class DataService {
     {driverCode: '', birth: '', name: '', nationality: '', permanentNo: '', wiki: '', races: []};
 
   currentConstructor: Constructor = {name: '', nationality: '', url: '', races: []};
+  season = 'current';
+  allSeasons = [];
 
   constructor(private httpClient: HttpClient) {
   }
 
   getDriverStandingsData(): void {
-    this.httpClient.get('http://ergast.com/api/f1/current/driverStandings.json', {}).subscribe((response: any) => {
+    this.httpClient.get(`http://ergast.com/api/f1/${this.season}/driverStandings.json`, {}).subscribe((response: any) => {
       const standings = response.MRData.StandingsTable.StandingsLists[0].DriverStandings;
 
       for (const standing of standings) {
@@ -78,7 +80,7 @@ export class DataService {
   }
 
   getConstructorStandingsData(): void {
-    this.httpClient.get('http://ergast.com/api/f1/current/constructorStandings.json', {}).subscribe((response: any) => {
+    this.httpClient.get(`http://ergast.com/api/f1/${this.season}/constructorStandings.json`, {}).subscribe((response: any) => {
       const constStandings = response.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
       for (const constStanding of constStandings) {
         let constRow: ConstructorStandings;
@@ -101,7 +103,7 @@ export class DataService {
   }
 
   getDriverInfo(id: string): void {
-    this.httpClient.get(`http://ergast.com/api/f1/current/drivers/${id}/results.json`, {}).subscribe((info: any) => {
+    this.httpClient.get(`http://ergast.com/api/f1/${this.season}/drivers/${id}/results.json`, {}).subscribe((info: any) => {
       const races: any = info.MRData.RaceTable.Races;
       const noRaces = races.length - 1;
       const driverInfo = races[noRaces].Results[0].Driver;
@@ -126,7 +128,7 @@ export class DataService {
   }
 
   getConstructorInfo(id: string): void {
-    this.httpClient.get(`http://ergast.com/api/f1/current/constructors/${id}/results.json`, {}).subscribe((info: any) => {
+    this.httpClient.get(`http://ergast.com/api/f1/${this.season}/constructors/${id}/results.json`, {}).subscribe((info: any) => {
       const races: any = info.MRData.RaceTable.Races;
       const noRaces = races.length - 1;
       const constructorInfo = races[noRaces].Results[0].Constructor;
@@ -153,6 +155,13 @@ export class DataService {
     });
   }
 
+  getAllSeasons(): void {
+    this.httpClient.get('http://ergast.com/api/f1/seasons.json?limit=100', {}).subscribe((info: any) => {
+      for (const season of info.MRData.SeasonTable.Seasons){
+        this.allSeasons.push(season.season);
+      }
+    });
+  }
   clearCurrent(): void {
     this.currentDriver =
       {driverCode: '', birth: '', name: '', nationality: '', permanentNo: '', wiki: '', races: []};

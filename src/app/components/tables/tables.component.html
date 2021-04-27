@@ -21,3 +21,13 @@
 <ng-container *ngIf="isConstructor ">
   <app-constructor-table></app-constructor-table>
 </ng-container>
+
+<footer>
+  <mat-form-field style="width: 100%" appearance="outline" class="fill-sm">
+    <mat-label>Select different season</mat-label>
+    <mat-select (selectionChange)="changeSeason($event)">
+      <mat-option *ngFor="let season of data.allSeasons" value="season">{{season}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</footer>
+

@@ -1,6 +1,7 @@
 import {AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {DataService} from '../../services/data.service';
+import {MatSelectChange} from '@angular/material/select';
 
 @Component({
   selector: 'app-tables',
@@ -19,6 +20,7 @@ export class TablesComponent implements OnInit, AfterContentInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.data.getAllSeasons();
   }
 
   ngAfterContentInit(): void {
@@ -47,4 +49,11 @@ export class TablesComponent implements OnInit, AfterContentInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
+  changeSeason(event: MatSelectChange): void {
+    this.data.season = event.source.triggerValue;
+    this.data.driverStandings = [];
+    this.data.constructorStandings = [];
+    this.data.getDriverStandingsData();
+    this.data.getConstructorStandingsData();
+  }
 }
