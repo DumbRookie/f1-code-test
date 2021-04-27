@@ -18,6 +18,7 @@ import { DriverDetailsComponent } from './components/driver-details/driver-detai
 import { TablesComponent } from './components/tables/tables.component';
 import {MatCardModule} from '@angular/material/card';
 import { ConstructorDetailsComponent } from './components/constructor-details/constructor-details.component';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ConstructorDetailsComponent } from './components/constructor-details/co
     MatSortModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

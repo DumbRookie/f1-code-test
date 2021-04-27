@@ -1,4 +1,17 @@
-
+<div class="mg-hr-8">
+    <div class="row">
+        <mat-form-field appearance="outline" class="fill-sm">
+        <mat-label>Select column</mat-label>
+        <mat-select (selectionChange)="setColumnName($event)">
+          <mat-option *ngFor="let column of driverColumns" value="column">{{column}}</mat-option>
+        </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="fill-sm">
+        <mat-label>Filter</mat-label>
+        <input matInput #filterInput (keyup)="filterByColumn($event)">
+        </mat-form-field>
+      </div>
+    </div>
 <mat-table class="mat-elevation-z8" [dataSource]="data.driverDataSource" matSort
            *ngIf="data.driverStandings.length > 0 ">
   <ng-container matColumnDef="drivers_name">

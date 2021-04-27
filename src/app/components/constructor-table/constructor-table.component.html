@@ -1,11 +1,26 @@
+<div class="mg-hr-8">
+  <div class="row">
+    <mat-form-field appearance="outline" class="fill-sm">
+      <mat-label>Select column</mat-label>
+      <mat-select (selectionChange)="setColumnName($event)">
+        <mat-option *ngFor="let column of constructorColumns" value="column">{{column}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="fill-sm">
+      <mat-label>Filter</mat-label>
+      <input matInput #filterInput (keyup)="filterByColumn($event)">
+    </mat-form-field>
+  </div>
+</div>
+
 <mat-table class="mat-elevation-z8" [dataSource]="data.constructorDataSource" matSort
            *ngIf="data.constructorStandings.length > 0">
-  <ng-container matColumnDef="drivers_name">
+  <ng-container matColumnDef="constructor">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Constructor Name</mat-header-cell>
     <mat-cell *matCellDef="let standing">{{standing.constructor}}</mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="constructor">
+  <ng-container matColumnDef="nationality">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Nationality</mat-header-cell>
     <mat-cell *matCellDef="let standing">{{standing.nationality}}</mat-cell>
   </ng-container>
