@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {DataService} from '../../services/data.service';
 
@@ -7,7 +7,7 @@ import {DataService} from '../../services/data.service';
   templateUrl: './tables.component.html',
   styleUrls: ['./tables.component.scss']
 })
-export class TablesComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TablesComponent implements OnInit, AfterContentInit, OnDestroy {
 
   title = 'F1 Dashboard';
   isDriver = true;
@@ -21,7 +21,7 @@ export class TablesComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  ngAfterViewInit(): void {
+  ngAfterContentInit(): void {
     this.sub = this.data.initializedState.subscribe((state) => {
       this.doneLoading = state;
 

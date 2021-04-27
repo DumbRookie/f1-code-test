@@ -27,7 +27,7 @@
 
 
   <mat-header-row *matHeaderRowDef="constructorColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: constructorColumns"></mat-row>
+  <mat-row style="cursor: pointer" *matRowDef="let row; columns: constructorColumns" (click)="showConstructor(row)"></mat-row>
 
 </mat-table>
 <div class="divider"></div>

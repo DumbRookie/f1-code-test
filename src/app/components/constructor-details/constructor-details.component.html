@@ -1,0 +1,34 @@
+<div class="hr-center">
+  <mat-card class="mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title >Constructor</mat-card-title>
+      <mat-card-subtitle>All of the constructor's information at a glance.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <h4 class="col-sm">Name:</h4>
+        <p class="col-l"><a target="_blank" [href]="data.currentConstructor.url">{{data.currentConstructor.name}}</a></p>
+      </div>
+      <div class="row">
+        <h4 class="col-sm">Nationality:</h4>
+        <p class="col-l">{{data.currentConstructor.nationality}}</p>
+      </div>
+      <div *ngFor="let race of data.currentConstructor.races">
+        <hr>
+        <p>On round {{race.round}} at {{race.place}}, the constructor had {{race.roundRaces.length}} races.</p>
+        <ul>
+          <li *ngFor="let roundRace of race.roundRaces">
+            {{roundRace.driver}} doing {{roundRace.laps}} laps, with {{roundRace.points}} points,
+            resulting at position {{roundRace.position}}.
+            The status of the races was "{{roundRace.status}}".
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <button><a routerLink="/tables">Back To Dashboard</a></button>
+    </mat-card-footer>
+  </mat-card>
+</div>
+
+

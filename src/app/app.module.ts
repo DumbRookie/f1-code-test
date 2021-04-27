@@ -17,6 +17,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { DriverDetailsComponent } from './components/driver-details/driver-details.component';
 import { TablesComponent } from './components/tables/tables.component';
 import {MatCardModule} from '@angular/material/card';
+import { ConstructorDetailsComponent } from './components/constructor-details/constructor-details.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {MatCardModule} from '@angular/material/card';
     ConstructorTableComponent,
     DriverDetailsComponent,
     TablesComponent,
+    ConstructorDetailsComponent,
   ],
   imports: [
     BrowserModule,

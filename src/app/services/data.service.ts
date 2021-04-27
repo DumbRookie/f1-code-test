@@ -31,6 +31,14 @@ export interface Driver {
   driverCode: string;
 }
 
+export interface Constructor {
+  races: any[];
+  name: string;
+  url: string;
+  nationality: string;
+
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,6 +50,8 @@ export class DataService {
   private initialized = new ReplaySubject<boolean>(1);
   currentDriver: Driver =
     {driverCode: '', birth: '', name: '', nationality: '', permanentNo: '', wiki: '', races: []};
+
+  currentConstructor: Constructor = {name: '', nationality: '', url: '', races: []};
 
   constructor(private httpClient: HttpClient) {
   }
@@ -99,11 +109,10 @@ export class DataService {
       this.currentDriver.wiki = driverInfo.url;
       this.currentDriver.permanentNo = driverInfo.permanentNumber;
       this.currentDriver.nationality = driverInfo.nationality;
-      this.currentDriver.name = driverInfo.givenName + ' ' + driverInfo.familyName ;
+      this.currentDriver.name = driverInfo.givenName + ' ' + driverInfo.familyName;
       this.currentDriver.driverCode = driverInfo.code;
       this.currentDriver.races = [];
-      for (const race of races){
-        console.log(race);
+      for (const race of races) {
         const round: any = {};
         round.number = race.round;
         round.place = race.Circuit.circuitName;
@@ -116,8 +125,37 @@ export class DataService {
     });
   }
 
-  clearCurrent(): void{
+  getConstructorInfo(id: string): void {
+    this.httpClient.get(`http://ergast.com/api/f1/current/constructors/${id}/results.json`, {}).subscribe((info: any) => {
+      const races: any = info.MRData.RaceTable.Races;
+      const noRaces = races.length - 1;
+      const constructorInfo = races[noRaces].Results[0].Constructor;
+      this.currentConstructor.name = constructorInfo.name;
+      this.currentConstructor.nationality = constructorInfo.nationality;
+      this.currentConstructor.url = constructorInfo.url;
+      this.currentDriver.races = [];
+      for (const race of races) {
+        const run: {round: string; place: string; roundRaces: any[]} = {round: '', place: '', roundRaces: []};
+        run.round = race.round;
+        run.place = race.Circuit.circuitName;
+        run.roundRaces = [];
+        for (const result of race.Results){
+          const  roundRace: any = {};
+          roundRace.laps = result.laps;
+          roundRace.position = result.position;
+          roundRace.status = result.status;
+          roundRace.driver = result.Driver.givenName + ' ' + result.Driver.familyName;
+          roundRace.points = result.points;
+          run.roundRaces.push(roundRace);
+        }
+        this.currentConstructor.races.push(run);
+      }
+    });
+  }
+
+  clearCurrent(): void {
     this.currentDriver =
-    {driverCode: '', birth: '', name: '', nationality: '', permanentNo: '', wiki: '', races: []};
+      {driverCode: '', birth: '', name: '', nationality: '', permanentNo: '', wiki: '', races: []};
+    this.currentConstructor = {name: '', nationality: '', url: '', races: []};
   }
 }
