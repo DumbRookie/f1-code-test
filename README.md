@@ -1,27 +1,13 @@
-# F1CodeTest
+# F1 Dashboard - Code Test
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.3.
+This deliverable follows all the requirements of the documentation presented. Furthermore, there is also the ability to configure which season's data to fetch. This functionality is presented at the footer of the main screen on route '/tables'. 
 
-## Development server
+To create the UI, due to time limitations, I used elements from the Angular Material package to offer a more modern/material-style look to the project.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The main components used are:
 
-## Code scaffolding
+The TablesComponent that offers the dashboard and the option to toggle between driver & constructor standings. One issue with this approach and the added functionality of changing the seasonal data is that not all API data follow the same structure for all seasons. More precisely, between the years 1950-1958 the constructor standings don't follow the same pattern and, thus, the respective table isn't populated. This could be fixed if there was more time and a more specific approach to handling these responses from the server for these seasons.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+When clicking on the header of the tables, the data are being sorted, with each click the sorting follows the pattern of ascending -> descending -> none. There is also a filter for each table. When giving an input without using the dropdown to specify the column, the filtering happens across all columns and changes the dataset to all records that contain the filter value, this happens with every key press. If the dropdown is used then only the values of the specified column are filtered. At this point, if a user has filtered without a specific column in mind and click one from the dropdown menu, then the filtering happens without any keypress, with the filter value being what was left in the input.
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+When a row is clicked the user is routed to another component, either the DriverDetails component or the ConstructorDetails component.
